@@ -67,5 +67,17 @@ class TestDay3(unittest.TestCase):
         instruction_list_B = 'U98,R91,D20,R16,D67,R40,U7,R15,U6,R7'.split(',')
         self.assertEqual(day03.find_smallest_manhattan_distance(instruction_list_A, instruction_list_B), 135)
 
+    def test_smallest_number_of_steps_to_intersecting_point_can_be_found_for_two_wires(self):
+        instruction_list_A = 'R8,U5,L5,D3'.split(',')
+        instruction_list_B = 'U7,R6,D4,L4'.split(',')
+        self.assertEqual(day03.find_intersecting_points_with_least_cumulative_steps(instruction_list_A, instruction_list_B), 30)
+        instruction_list_A = 'R75,D30,R83,U83,L12,D49,R71,U7,L72'.split(',')
+        instruction_list_B = 'U62,R66,U55,R34,D71,R55,D58,R83'.split(',')
+        self.assertEqual(day03.find_intersecting_points_with_least_cumulative_steps(instruction_list_A, instruction_list_B), 610)
+        instruction_list_A = 'R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51'.split(',')
+        instruction_list_B = 'U98,R91,D20,R16,D67,R40,U7,R15,U6,R7'.split(',')
+        self.assertEqual(day03.find_intersecting_points_with_least_cumulative_steps(instruction_list_A, instruction_list_B), 410)
+        
+
 if __name__ == "__main__":
     unittest.main()
