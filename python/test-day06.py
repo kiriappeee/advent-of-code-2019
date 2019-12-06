@@ -65,5 +65,23 @@ E)J
 J)K
 K)L""".split('\n'))
         self.assertEqual(day06.get_total_number_of_orbits(orbit_map), 42)
+
+    def test_paths_can_be_found(self):
+        orbit_map = day06.generate_orbit_map("""COM)B
+B)C
+C)D
+D)E
+E)F
+B)G
+G)H
+D)I
+E)J
+J)K
+K)L
+K)YOU
+I)SAN""".split('\n'))
+        valid_paths = []
+        self.assertEqual(day06.search_for_valid_path(orbit_map, 'YOU', 'SAN', 'YOU', [], valid_paths), ['YOU', 'K', 'J', 'E', 'D', 'I', 'SAN'])
+        print(valid_paths)
 if __name__ == "__main__":
     unittest.main()

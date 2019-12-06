@@ -29,6 +29,43 @@ def get_total_number_of_orbits(orbit_map):
     for orbit in orbit_map:
         total_number_of_orbits += get_number_of_orbits_for_given_object(orbit, orbit_map)
     return total_number_of_orbits
+
+def search_for_valid_path(orbit_map, origin, destination, current_object, path, valid_paths = []):
+    # if destination in path:
+    #     return path
+    path.append(current_object)
+    # print(path)
+    if destination in orbit_map[current_object]['orbits'] or destination in orbit_map[current_object]['orbitted_by']:
+        path.append(destination)
+        valid_paths.append(path)
+        return path
+    if len(orbit_map[current_object]['orbits']) > 0:
+        # print('Checking orbits for ' + current_object)
+        for orbit in orbit_map[current_object]['orbits']:
+            if destination in path:
+                return path
+            elif current_object in path and path.index(current_object) != len(path)-1:
+                path = path[:path.index(current_object) + 1]
+            if orbit not in path:
+                searched_path = search_for_valid_path(orbit_map, origin, destination, orbit, path)
+                if destination in searched_path:
+                    return searched_path
+
+    if current_object in path and path.index(current_object) != len(path)-1:
+        path = path[:path.index(current_object) + 1]
+
+    if len(orbit_map[current_object]['orbitted_by']) > 0:
+        # print('Checking orbitted by for ' + current_object)
+        for orbit in orbit_map[current_object]['orbitted_by']:
+            if destination in path:
+                return path
+            elif current_object in path and path.index(current_object) != len(path)-1:
+                path = path[:path.index(current_object) + 1]
+            if orbit not in path:
+                searched_path = search_for_valid_path(orbit_map, origin, destination, orbit, path)
+                if destination in searched_path:
+                    return searched_path
+    return path    
 def run_part_one():
     puzzle_input = get_input()
     orbit_map = generate_orbit_map(puzzle_input)
@@ -36,7 +73,12 @@ def run_part_one():
 
 def run_part_two():
     puzzle_input = get_input()
-    return
+    orbit_map = generate_orbit_map(puzzle_input)
+    origin = 'YOU'
+    destination = 'SAN'
+    path = []
+    valid_paths = []
+    return len(search_for_valid_path(orbit_map, origin, destination, origin, path)) - 3
 
 if __name__ == "__main__":
     print("== DAY 6 PART 1 ==")
